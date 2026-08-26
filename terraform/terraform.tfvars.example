@@ -1,0 +1,30 @@
+aws_region   = "us-east-1"
+project_name = "scalable-webapp"
+environment  = "dev"
+
+vpc_cidr            = "10.0.0.0/16"
+availability_zones  = ["us-east-1a", "us-east-1b"]
+
+instance_type        = "t3.micro"
+asg_min_size         = 2
+asg_max_size         = 4
+asg_desired_capacity = 2
+cpu_target_value     = 50
+
+db_engine             = "mysql"
+db_engine_version     = "8.0"
+db_instance_class     = "db.t3.micro"
+db_allocated_storage  = 20
+db_name               = "appdb"
+db_username           = "admin"
+# db_password should NOT be set here. Export it instead:
+#   export TF_VAR_db_password="your-strong-password"
+
+# Leave empty to skip Route 53 / ACM / custom domain setup
+domain_name = ""
+
+# Leave empty to skip email alert subscription
+alert_email = ""
+
+# Leave empty to rely on SSM Session Manager only (recommended)
+key_pair_name = ""
