@@ -5,6 +5,20 @@ highly available web application deployed on EC2 behind an Application Load
 Balancer, with Auto Scaling, a Multi-AZ RDS database, CloudFront edge caching,
 and WAF protection — all inside a purpose-built VPC.
 
+## Table of contents
+
+- [Architecture](#architecture)
+- [Repository structure](#repository-structure)
+- [Prerequisites](#prerequisites)
+- [Deployment](#deployment)
+- [Accessing EC2 instances securely](#accessing-ec2-instances-securely)
+- [How Auto Scaling responds to load](#how-auto-scaling-responds-to-load)
+- [Security notes](#security-notes)
+- [Notes from a real deployment](#notes-from-a-real-deployment)
+- [Cost notes](#cost-notes)
+- [Learning outcomes demonstrated](#learning-outcomes-demonstrated)
+- [License](#license)
+
 ## Architecture
 
 ![Architecture diagram](docs/architecture-diagram.png)
