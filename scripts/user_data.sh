@@ -74,7 +74,7 @@ app.get('/api/db-check', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server listening on port $${PORT}`));
 SERVERJS
 
 cd "$APP_DIR"

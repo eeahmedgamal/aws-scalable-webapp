@@ -1,4 +1,6 @@
 resource "aws_cloudfront_distribution" "main" {
+  count = var.enable_cloudfront ? 1 : 0
+
   enabled     = true
   comment     = "${var.project_name} CDN in front of the ALB"
   price_class = "PriceClass_100"

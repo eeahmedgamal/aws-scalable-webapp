@@ -125,6 +125,12 @@ variable "domain_name" {
   default     = ""
 }
 
+variable "enable_cloudfront" {
+  description = "Whether to create the CloudFront distribution. Set to false if your AWS account is not yet verified for CloudFront (new accounts sometimes need AWS Support to unlock it) - you can still reach the app via the ALB DNS name."
+  type        = bool
+  default     = true
+}
+
 variable "alert_email" {
   description = "Email address to receive CloudWatch/SNS alerts"
   type        = string

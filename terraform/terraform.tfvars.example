@@ -20,6 +20,11 @@ db_username           = "admin"
 # db_password should NOT be set here. Export it instead:
 #   export TF_VAR_db_password="your-strong-password"
 
+# Set to false if your AWS account isn't yet verified for CloudFront
+# (new accounts sometimes need AWS Support to unlock it). The app still
+# works via the ALB DNS name / site_url output either way.
+enable_cloudfront = true
+
 # Leave empty to skip Route 53 / ACM / custom domain setup
 domain_name = ""
 

@@ -134,6 +134,30 @@ instances receive traffic.
 - The database password is never hardcoded — pass it via `TF_VAR_db_password`
   or a secrets manager, never commit it in `terraform.tfvars`.
 
+## Notes from a real deployment
+
+A few adjustments were needed on a brand-new AWS account, and are already
+reflected in this repo:
+
+- **CloudFront**: new/unverified AWS accounts are sometimes blocked from
+  creating CloudFront distributions until AWS Support verifies the account.
+  Set `enable_cloudfront = false` in your `terraform.tfvars` to skip it — the
+  app is still reachable via the ALB DNS name (`terraform output alb_dns_name`
+  / `site_url`). Once your account is verified, set it back to `true` and
+  re-run `terraform apply`.
+- **RDS backup retention**: some free-tier / new accounts reject a
+  `backup_retention_period` above 1 day. This repo defaults to `1`; raise it
+  once your account allows it.
+- **`/api/db-check` and the database password**: the EC2 user data script
+  intentionally does **not** write `DB_PASSWORD` to `/etc/app.env` in
+  plaintext (see the comment in `scripts/user_data.sh`). This means
+  `/api/db-check` will return a database authentication error out of the box
+  — that's expected, not a bug. The `/` and `/health` endpoints work
+  regardless, since they don't touch the database. To make `/api/db-check`
+  succeed, wire up AWS Secrets Manager: store the DB password there, grant
+  the EC2 IAM role `secretsmanager:GetSecretValue`, and fetch it in
+  `user_data.sh` at boot instead of skipping it.
+
 ## Cost notes
 
 This stack is **not** entirely free-tier:

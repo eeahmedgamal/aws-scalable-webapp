@@ -43,7 +43,7 @@ resource "aws_acm_certificate_validation" "main" {
 
 # --- ACM certificate for CloudFront (must be in us-east-1) ------------------
 resource "aws_acm_certificate" "cloudfront" {
-  count             = var.domain_name != "" ? 1 : 0
+  count             = var.domain_name != "" && var.enable_cloudfront ? 1 : 0
   provider          = aws.us_east_1
   domain_name       = var.domain_name
   validation_method = "DNS"
@@ -58,7 +58,7 @@ resource "aws_acm_certificate" "cloudfront" {
 }
 
 resource "aws_acm_certificate_validation" "cloudfront" {
-  count                   = var.domain_name != "" ? 1 : 0
+  count                   = var.domain_name != "" && var.enable_cloudfront ? 1 : 0
   provider                = aws.us_east_1
   certificate_arn         = aws_acm_certificate.cloudfront[0].arn
   validation_record_fqdns = [for r in aws_route53_record.cert_validation : r.fqdn]
@@ -79,27 +79,27 @@ resource "aws_route53_health_check" "alb" {
 
 # --- Alias record pointing at CloudFront (root + www) -----------------------
 resource "aws_route53_record" "root" {
-  count   = var.domain_name != "" ? 1 : 0
+  count   = var.domain_name != "" && var.enable_cloudfront ? 1 : 0
   zone_id = data.aws_route53_zone.main[0].zone_id
   name    = var.domain_name
   type    = "A"
 
   alias {
-    name                   = aws_cloudfront_distribution.main.domain_name
-    zone_id                = aws_cloudfront_distribution.main.hosted_zone_id
+    name                   = aws_cloudfront_distribution.main[0].domain_name
+    zone_id                = aws_cloudfront_distribution.main[0].hosted_zone_id
     evaluate_target_health = false
   }
 }
 
 resource "aws_route53_record" "www" {
-  count   = var.domain_name != "" ? 1 : 0
+  count   = var.domain_name != "" && var.enable_cloudfront ? 1 : 0
   zone_id = data.aws_route53_zone.main[0].zone_id
   name    = "www.${var.domain_name}"
   type    = "A"
 
   alias {
-    name                   = aws_cloudfront_distribution.main.domain_name
-    zone_id                = aws_cloudfront_distribution.main.hosted_zone_id
+    name                   = aws_cloudfront_distribution.main[0].domain_name
+    zone_id                = aws_cloudfront_distribution.main[0].hosted_zone_id
     evaluate_target_health = false
   }
 }

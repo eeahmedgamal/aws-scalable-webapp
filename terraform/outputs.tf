@@ -4,8 +4,8 @@ output "alb_dns_name" {
 }
 
 output "cloudfront_domain_name" {
-  description = "CloudFront distribution domain name"
-  value       = aws_cloudfront_distribution.main.domain_name
+  description = "CloudFront distribution domain name (null if enable_cloudfront = false)"
+  value       = var.enable_cloudfront ? aws_cloudfront_distribution.main[0].domain_name : null
 }
 
 output "rds_endpoint" {
@@ -41,5 +41,9 @@ output "sns_topic_arn" {
 
 output "site_url" {
   description = "URL to reach the application"
-  value       = var.domain_name != "" ? "https://${var.domain_name}" : "http://${aws_cloudfront_distribution.main.domain_name}"
+  value = (
+    var.domain_name != "" ? "https://${var.domain_name}" :
+    var.enable_cloudfront ? "http://${aws_cloudfront_distribution.main[0].domain_name}" :
+    "http://${aws_lb.main.dns_name}"
+  )
 }
