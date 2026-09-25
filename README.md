@@ -22,7 +22,8 @@ and WAF protection — all inside a purpose-built VPC.
 ## Architecture
 
 ![Architecture diagram]
-<img width="2720" height="2960" alt="image" src="https://github.com/user-attachments/assets/40ef1b6e-384d-4904-a449-ed1528e37d32" />
+<img width="1459" height="519" alt="architecture-diagram" src="https://github.com/user-attachments/assets/6bb9ff28-af08-4044-ad2f-f4953d6b3f5a" />
+
 
 
 **Traffic flow:** Internet users → Route 53 (DNS) → CloudFront (edge cache) →
