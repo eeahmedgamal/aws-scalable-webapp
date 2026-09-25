@@ -21,7 +21,9 @@ and WAF protection — all inside a purpose-built VPC.
 
 ## Architecture
 
-![Architecture diagram](docs/architecture-diagram.png)
+![Architecture diagram]
+<img width="2720" height="2960" alt="image" src="https://github.com/user-attachments/assets/40ef1b6e-384d-4904-a449-ed1528e37d32" />
+
 
 **Traffic flow:** Internet users → Route 53 (DNS) → CloudFront (edge cache) →
 Application Load Balancer + WAF → EC2 instances in an Auto Scaling Group
